@@ -1,7 +1,15 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const TestList = ({ navigation }) => {
+const TestList = () => {
+  const navigation = useNavigation();
   const tests = [
     {
       id: 1,
@@ -33,8 +41,29 @@ const TestList = ({ navigation }) => {
       readings: "Fasting: 90 mg/dL",
       condition: "Normal",
     },
+    {
+      id: 4,
+      testName: "Cholesterol Test",
+      testDate: "2023-10-20",
+      nurseName: "Jessica Wright",
+      testTime: "11:55 AM",
+      category: "Cardiovascular",
+      readings: "Total: 180 mg/dL",
+      condition: "High",
+    },
     // Add more test objects as needed
   ];
+
+  const handleEditTest = (test) => {
+    // Add code to handle editing the selected test
+    // You can navigate to an "EditTestScreen" and pass the test object for editing
+    navigation.navigate("EditTestScreen", { test });
+  };
+
+  const handleDeleteTest = (test) => {
+    // Add code to handle deleting the selected test
+    // You can implement a confirmation dialog before deleting
+  };
 
   return (
     <View>
@@ -51,6 +80,20 @@ const TestList = ({ navigation }) => {
             <Text style={styles.info}>Category: {item.category}</Text>
             <Text style={styles.info}>Readings: {item.readings}</Text>
             <Text style={styles.info}>Condition: {item.condition}</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => handleEditTest(item)}
+              >
+                <Text style={styles.buttonText}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handleDeleteTest(item)}
+              >
+                <Text style={styles.buttonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />
@@ -82,6 +125,24 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  editButton: {
+    backgroundColor: "#007AFF",
+    padding: 10,
+    borderRadius: 5,
+  },
+  deleteButton: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
   },
 });
 
