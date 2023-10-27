@@ -22,7 +22,7 @@ const PatientDetailsScreen = ({ route }) => {
     fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/${id}`, {
       method: "GET",
       headers: {
-        // You can set headers here if needed, e.g., authorization tokens
+        //set headers here
       },
     })
       .then((response) => response.json())

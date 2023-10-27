@@ -19,10 +19,8 @@ const EditTestScreen = () => {
   });
 
   const handleSave = () => {
-    // Add code to save the edited test data, e.g., make an API call to update the test
-    // You can use the "editedTest" state to send the updated data to the server
+    // save the edited test data
 
-    // After saving, you can navigate back to the TestList screen
     navigation.goBack();
   };
 

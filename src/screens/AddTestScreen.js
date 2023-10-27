@@ -11,10 +11,8 @@ const AddTestScreen = ({ navigation }) => {
   const [condition, setCondition] = useState("");
 
   const handleAddTest = () => {
-    // Add code to handle adding a new test
-    // You can use the state variables (testName, testDate, nurseName, etc.) to create a new test object
-    // and save it to your data source
-    // After adding the test, you can navigate back to the previous screen
+    // handle adding a new test
+
     navigation.goBack();
   };
 

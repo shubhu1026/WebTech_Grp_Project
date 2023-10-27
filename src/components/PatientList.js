@@ -18,7 +18,7 @@ const PatientList = ({ navigation }) => {
     fetch("https://f27c-184-144-58-216.ngrok-free.app/patients", {
       method: "GET",
       headers: {
-        // You can set headers here if needed, e.g., authorization tokens
+        // set headers
       },
     })
       .then((response) => response.json())
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    elevation: 3, // Add shadow on Android
-    shadowColor: "#000", // Add shadow on iOS
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,

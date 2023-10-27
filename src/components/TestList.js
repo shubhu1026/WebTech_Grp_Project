@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const TestList = () => {
   const navigation = useNavigation();
+  // sample data
   const tests = [
     {
       id: 1,
@@ -51,18 +52,15 @@ const TestList = () => {
       readings: "Total: 180 mg/dL",
       condition: "High",
     },
-    // Add more test objects as needed
   ];
 
   const handleEditTest = (test) => {
     // Add code to handle editing the selected test
-    // You can navigate to an "EditTestScreen" and pass the test object for editing
     navigation.navigate("EditTestScreen", { test });
   };
 
   const handleDeleteTest = (test) => {
     // Add code to handle deleting the selected test
-    // You can implement a confirmation dialog before deleting
   };
 
   return (

@@ -10,9 +10,8 @@ const AddPatientScreen = () => {
   const [doctor, setDoctor] = useState("");
 
   const handleAddPatient = () => {
-    // Handle the logic to add a patient, e.g., send the data to an API or update your local data.
-    // You can customize this function based on your app's requirements.
-    console.log("Adding patient:", { name, address, dob, doctor });
+    //add a patient
+
     navigation.goBack();
   };
 

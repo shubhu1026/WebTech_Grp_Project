@@ -21,7 +21,7 @@ const PatientTestsScreen = ({ route, navigation }) => {
     fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/${patientId}`, {
       method: "GET",
       headers: {
-        // You can set headers here if needed, e.g., authorization tokens
+        // set headers here
       },
     })
       .then((response) => response.json())
@@ -59,11 +59,9 @@ const PatientTestsScreen = ({ route, navigation }) => {
         <TestList />
       </View>
 
-      {/* Add New Test Button with margin top */}
       <Button
         title="Add New Test"
         onPress={() => {
-          // Navigate to the screen for adding a new test
           navigation.navigate("AddTestScreen");
         }}
         style={styles.addButton}
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
   },
   testListContainer: {
     flex: 1,
-    maxHeight: "70%", // Set a maximum height for the TestList component
+    maxHeight: "70%",
   },
   testItem: {
     fontSize: 16,
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addButton: {
-    marginTop: 16, // Add margin top to the button
+    marginTop: 16,
   },
 });
 
