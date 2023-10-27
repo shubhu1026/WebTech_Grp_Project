@@ -10,7 +10,7 @@ const PatientDetailsScreen = ({ route }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient details using the ID
-    fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/:${id}`, {
+    fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/${id}`, {
       method: "GET",
       headers: {
         // You can set headers here if needed, e.g., authorization tokens
@@ -25,7 +25,7 @@ const PatientDetailsScreen = ({ route }) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [id]);
+  }, []);
 
   if (loading) {
     return (

@@ -45,12 +45,12 @@ const PatientList = ({ navigation }) => {
       <Text style={styles.listTitle}>List of Patients</Text>
       <FlatList
         data={patients}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
             onPress={() => {
-              navigation.navigate("PatientDetailsScreen", { id: item.id });
+              navigation.navigate("PatientDetailsScreen", { id: item._id });
             }}
           >
             <Text style={styles.name}>
