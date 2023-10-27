@@ -3,18 +3,17 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   ActivityIndicator,
+  Button,
+  FlatList,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-const PatientDetailsScreen = ({ route }) => {
-  const navigation = useNavigation();
+import TestList from "../components/TestList";
 
+const PatientTestsScreen = ({ route, navigation }) => {
   const [patientDetails, setPatientDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Get the patient ID from the route parameters
   const { id } = route.params;
 
   useEffect(() => {
@@ -54,18 +53,16 @@ const PatientDetailsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>
-        {patientDetails.firstName} {patientDetails.lastName}
-      </Text>
-      <Text style={styles.info}>Address: {patientDetails.address}</Text>
-      <Text style={styles.info}>DOB: {patientDetails.dateOfBirth}</Text>
-      <Text style={styles.info}>Gender: {patientDetails.gender}</Text>
-      <Text style={styles.info}>Email: {patientDetails.email}</Text>
+      <Text style={styles.title}>{patientDetails.firstName} Tests</Text>
 
+      <TestList />
+
+      {/* Add New Test Button */}
       <Button
-        title="View Tests"
+        title="Add New Test"
         onPress={() => {
-          navigation.navigate("PatientTestsScreen", { patientId: id });
+          // Navigate to the screen for adding a new test
+          navigation.navigate("AddTestScreen");
         }}
       />
     </View>
@@ -75,21 +72,16 @@ const PatientDetailsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 16,
   },
-  name: {
-    fontSize: 20,
+  title: {
+    fontSize: 24,
     fontWeight: "bold",
   },
-  info: {
+  testItem: {
     fontSize: 16,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginVertical: 8,
   },
 });
 
-export default PatientDetailsScreen;
+export default PatientTestsScreen;
