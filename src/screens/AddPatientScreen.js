@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const AddPatientScreen = () => {
+  const navigation = useNavigation();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
@@ -11,6 +13,7 @@ const AddPatientScreen = () => {
     // Handle the logic to add a patient, e.g., send the data to an API or update your local data.
     // You can customize this function based on your app's requirements.
     console.log("Adding patient:", { name, address, dob, doctor });
+    navigation.goBack();
   };
 
   return (
