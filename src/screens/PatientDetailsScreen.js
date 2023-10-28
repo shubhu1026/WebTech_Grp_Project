@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import API_BASE_URL from "../api/apiconfig";
 
 const PatientDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ const PatientDetailsScreen = ({ route }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient details using the ID
-    fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/${id}`, {
+    fetch(`${API_BASE_URL}/patients/${id}`, {
       method: "GET",
       headers: {
         //set headers here

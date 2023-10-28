@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
+import API_BASE_URL from "../api/apiconfig";
 
 const PatientList = ({ navigation }) => {
   const [patients, setPatients] = useState([]);
@@ -15,7 +16,7 @@ const PatientList = ({ navigation }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient data
-    fetch("https://f27c-184-144-58-216.ngrok-free.app/patients", {
+    fetch(`${API_BASE_URL}/patients`, {
       method: "GET",
       headers: {
         // set headers

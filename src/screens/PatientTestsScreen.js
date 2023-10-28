@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Button,
 } from "react-native";
-
+import API_BASE_URL from "../api/apiconfig";
 import TestList from "../components/TestList";
 
 const PatientTestsScreen = ({ route, navigation }) => {
@@ -18,7 +18,7 @@ const PatientTestsScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient details using the ID
-    fetch(`https://f27c-184-144-58-216.ngrok-free.app/patients/${patientId}`, {
+    fetch(`${API_BASE_URL}/patients/${patientId}`, {
       method: "GET",
       headers: {
         // set headers here
