@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet , Image  } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const AddPatientScreen = () => {
@@ -17,32 +17,32 @@ const AddPatientScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Patient</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Address"
-        value={address}
-        onChangeText={setAddress}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Date of Birth"
-        value={dob}
-        onChangeText={setDob}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Doctor"
-        value={doctor}
-        onChangeText={setDoctor}
-      />
-      <Button title="Add Patient" onPress={handleAddPatient} />
+      <Text style={styles.title}>Add Patient Details</Text>
+      <View style={styles.SectionStyle}>
+        <Image style={styles.ImageStyle} source={{uri: 'https://qdesq.imagekit.io/image/upload/v1698460686/bqrc8ao181l4juqchgeg.png',}}/>
+        <TextInput style={{ flex: 1 }} placeholder="Enter Your Name Here" underlineColorAndroid="transparent"
+         value={name}
+         onChangeText={setName}/>
+      </View>
+      <View style={styles.SectionStyle}>
+        <Image style={styles.ImageStyle} source={{uri: 'https://qdesq.imagekit.io/image/upload/v1698460893/eu1gi8oyhafhlxdmdcfj.png',}}/>
+        <TextInput style={{ flex: 1 }} placeholder="Enter Your Address Here" underlineColorAndroid="transparent"
+         value={address}
+         onChangeText={setAddress}/>
+      </View>
+      <View style={styles.SectionStyle}>
+        <Image style={styles.ImageStyle} source={{uri: 'https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png',}}/>
+        <TextInput style={{ flex: 1 }} placeholder="Enter Your Date of Birth Here" underlineColorAndroid="transparent"
+         value={dob}
+         onChangeText={setDob}/>
+      </View>
+      <View style={styles.SectionStyle}>
+        <Image style={styles.ImageStyle} source={{uri: 'https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png',}}/>
+        <TextInput style={{ flex: 1 }} placeholder="Enter Your Doctor Name Here" underlineColorAndroid="transparent"
+         value={doctor}
+         onChangeText={setDoctor}/>
+      </View>
+      <Button color="#199A8E" title="Submit" onPress={handleAddPatient} />
     </View>
   );
 };
@@ -53,10 +53,14 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 16,
+    color : "#101623",
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop : 15,
+    marginBottom: 10,
+    textAlign: "center",
   },
+  
   input: {
     height: 40,
     borderColor: "gray",
@@ -65,6 +69,27 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 8,
   },
+  SectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    borderColor: '#A6A6A6',
+    height: 50,
+    borderRadius: 12,
+    paddingLeft : 5,
+    margin: 10,
+  },
+   ImageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 20,
+    width: 20,
+    resizeMode: 'stretch',
+    alignItems: 'center',
+    marginRight : 10
+  }
 });
 
 export default AddPatientScreen;

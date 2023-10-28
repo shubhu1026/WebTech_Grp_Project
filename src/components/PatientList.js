@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import API_BASE_URL from "../api/apiconfig";
 
 const PatientList = ({ navigation }) => {
   const [patients, setPatients] = useState([]);
@@ -16,7 +15,7 @@ const PatientList = ({ navigation }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient data
-    fetch(`${API_BASE_URL}/patients`, {
+    fetch("http://127.0.0.1:5000/patients", {
       method: "GET",
       headers: {
         // set headers
@@ -42,7 +41,7 @@ const PatientList = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <Text style={styles.listTitle}>List of Patients</Text>
       <FlatList
         data={patients}
@@ -54,12 +53,11 @@ const PatientList = ({ navigation }) => {
               navigation.navigate("PatientDetailsScreen", { id: item._id });
             }}
           >
-            <Text style={styles.name}>
-              {item.firstName + " " + item.lastName}
+            <Text style={styles.name}>{item.firstName + " " + item.lastName}
             </Text>
-            <Text style={styles.info}>Address: {item.address}</Text>
-            <Text style={styles.info}>DOB: {item.dateOfBirth}</Text>
-            <Text style={styles.info}>Gender: {item.gender}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Address :</Text>  {item.address}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Date Of Birth :</Text>  {item.dateOfBirth}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Gender :</Text>  {item.gender}</Text>
           </TouchableOpacity>
         )}
       />
@@ -68,29 +66,45 @@ const PatientList = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer : {
+    width : "100%",
+    padding : 20,
+    backgroundColor : "#fff",
+  },
   listTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    color : "#101623",
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop : 15,
     marginBottom: 10,
     textAlign: "center",
   },
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#E8F3F1",
     padding: 10,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 12,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "#E8F3F1",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+    height: 125
   },
   name: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#101623",
+  },
+  infoHeading : {
+    fontSize: 16,
+    color : "#000",
+    fontWeight : "600",
   },
   info: {
-    fontSize: 16,
+    fontSize: 14,
+    color : "#3B4453",
+    marginTop: 7, 
   },
   loadingContainer: {
     flex: 1,

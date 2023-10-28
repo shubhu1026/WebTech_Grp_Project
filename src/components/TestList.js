@@ -64,7 +64,7 @@ const TestList = () => {
   };
 
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <Text style={styles.listTitle}>List of Tests</Text>
       <FlatList
         data={tests}
@@ -72,12 +72,12 @@ const TestList = () => {
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.name}>{item.testName}</Text>
-            <Text style={styles.info}>Test Date: {item.testDate}</Text>
-            <Text style={styles.info}>Nurse: {item.nurseName}</Text>
-            <Text style={styles.info}>Test Time: {item.testTime}</Text>
-            <Text style={styles.info}>Category: {item.category}</Text>
-            <Text style={styles.info}>Readings: {item.readings}</Text>
-            <Text style={styles.info}>Condition: {item.condition}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Test Date :</Text>  {item.testDate}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Nurse :</Text>  {item.nurseName}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Test Time :</Text>  {item.testTime}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Category :</Text>  {item.category}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Readings :</Text>  {item.readings}</Text>
+            <Text style={styles.info}><Text style={styles.infoHeading}>Condition :</Text>  {item.condition}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.editButton}
@@ -100,6 +100,10 @@ const TestList = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    width : '100%',
+    height : '100%',
+  },
   listTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -107,36 +111,51 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#E8F3F1",
     padding: 10,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 12,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: "#E8F3F1",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+    height: 270
   },
   name: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#101623",
+    marginTop : 10,
+    marginBottom: 10, 
+  },
+  infoHeading : {
+    fontSize: 15,
+    color : "#000",
+    fontWeight : "600",
   },
   info: {
-    fontSize: 16,
+    fontSize: 14,
+    color : "#3B4453",
+    marginBottom: 8, 
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   editButton: {
-    backgroundColor: "#007AFF",
+    marginTop : 10,
+    backgroundColor: "#199A8E",
     padding: 10,
-    borderRadius: 5,
+    width : 70,
+    borderRadius: 8,
   },
   deleteButton: {
-    backgroundColor: "red",
+    marginTop : 10,
+    backgroundColor: "#e22f28",
     padding: 10,
-    borderRadius: 5,
+    width : 70,
+    borderRadius: 8,
   },
   buttonText: {
     color: "white",

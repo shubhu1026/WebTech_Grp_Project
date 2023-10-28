@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Button,
 } from "react-native";
-import API_BASE_URL from "../api/apiconfig";
+
 import TestList from "../components/TestList";
 
 const PatientTestsScreen = ({ route, navigation }) => {
@@ -18,7 +18,7 @@ const PatientTestsScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient details using the ID
-    fetch(`${API_BASE_URL}/patients/${patientId}`, {
+    fetch(`http://127.0.0.1:5000/patients/${patientId}`, {
       method: "GET",
       headers: {
         // set headers here
@@ -59,7 +59,7 @@ const PatientTestsScreen = ({ route, navigation }) => {
         <TestList />
       </View>
 
-      <Button
+      <Button color="#199A8E"
         title="Add New Test"
         onPress={() => {
           navigation.navigate("AddTestScreen");
@@ -77,13 +77,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    margin: 16,
+    color : "#101623",
+    fontSize: 20,
+    fontWeight: "600",
+    marginLeft : 10,
+    marginBottom: 20,
   },
   testListContainer: {
     flex: 1,
-    maxHeight: "70%",
+    maxHeight: "90%",
   },
   testItem: {
     fontSize: 16,
