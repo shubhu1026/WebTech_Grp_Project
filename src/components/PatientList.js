@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
+import API_BASE_URL from "../api/apiconfig";
 
 const PatientList = ({ navigation }) => {
   const [patients, setPatients] = useState([]);
@@ -15,7 +16,7 @@ const PatientList = ({ navigation }) => {
 
   useEffect(() => {
     // Make an API call to fetch patient data
-    fetch("http://127.0.0.1:5000/patients", {
+    fetch(`${API_BASE_URL}/patients`, {
       method: "GET",
       headers: {
         // set headers
@@ -53,11 +54,19 @@ const PatientList = ({ navigation }) => {
               navigation.navigate("PatientDetailsScreen", { id: item._id });
             }}
           >
-            <Text style={styles.name}>{item.firstName + " " + item.lastName}
+            <Text style={styles.name}>
+              {item.firstName + " " + item.lastName}
             </Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Address :</Text>  {item.address}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Date Of Birth :</Text>  {item.dateOfBirth}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Gender :</Text>  {item.gender}</Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Address :</Text> {item.address}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Date Of Birth :</Text>{" "}
+              {item.dateOfBirth}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Gender :</Text> {item.gender}
+            </Text>
           </TouchableOpacity>
         )}
       />
@@ -66,16 +75,16 @@ const PatientList = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer : {
-    width : "100%",
-    padding : 20,
-    backgroundColor : "#fff",
+  mainContainer: {
+    width: "100%",
+    padding: 20,
+    backgroundColor: "#fff",
   },
   listTitle: {
-    color : "#101623",
+    color: "#101623",
     fontSize: 16,
     fontWeight: "600",
-    marginTop : 15,
+    marginTop: 15,
     marginBottom: 10,
     textAlign: "center",
   },
@@ -89,22 +98,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    height: 125
+    height: 125,
   },
   name: {
     fontSize: 18,
     fontWeight: "600",
     color: "#101623",
   },
-  infoHeading : {
+  infoHeading: {
     fontSize: 16,
-    color : "#000",
-    fontWeight : "600",
+    color: "#000",
+    fontWeight: "600",
   },
   info: {
     fontSize: 14,
-    color : "#3B4453",
-    marginTop: 7, 
+    color: "#3B4453",
+    marginTop: 7,
   },
   loadingContainer: {
     flex: 1,
