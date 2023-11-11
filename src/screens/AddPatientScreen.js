@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
 
@@ -68,130 +76,132 @@ const AddPatientScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Add Patient Details</Text>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460686/bqrc8ao181l4juqchgeg.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your First Name Here"
-          underlineColorAndroid="transparent"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
+    <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
+      <View>
+        <Text style={styles.title}>Add Patient Details</Text>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460686/bqrc8ao181l4juqchgeg.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your First Name Here"
+            underlineColorAndroid="transparent"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460686/bqrc8ao181l4juqchgeg.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Last Name Here"
+            underlineColorAndroid="transparent"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460893/eu1gi8oyhafhlxdmdcfj.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Address Here"
+            underlineColorAndroid="transparent"
+            value={address}
+            onChangeText={setAddress}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Date of Birth Here"
+            underlineColorAndroid="transparent"
+            value={dob}
+            onChangeText={setDob}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Doctor Name Here"
+            underlineColorAndroid="transparent"
+            value={doctor}
+            onChangeText={setDoctor}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Email Here"
+            underlineColorAndroid="transparent"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Gender Here"
+            underlineColorAndroid="transparent"
+            value={gender}
+            onChangeText={setGender}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <Image
+            style={styles.ImageStyle}
+            source={{
+              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+            }}
+          />
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Your Contact Number Here"
+            underlineColorAndroid="transparent"
+            value={contactNumber}
+            onChangeText={setContactNumber}
+          />
+        </View>
+        <Button color="#199A8E" title="Submit" onPress={handleAddPatient} />
       </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460686/bqrc8ao181l4juqchgeg.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Last Name Here"
-          underlineColorAndroid="transparent"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460893/eu1gi8oyhafhlxdmdcfj.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Address Here"
-          underlineColorAndroid="transparent"
-          value={address}
-          onChangeText={setAddress}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Date of Birth Here"
-          underlineColorAndroid="transparent"
-          value={dob}
-          onChangeText={setDob}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Doctor Name Here"
-          underlineColorAndroid="transparent"
-          value={doctor}
-          onChangeText={setDoctor}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Email Here"
-          underlineColorAndroid="transparent"
-          value={email}
-          onChangeText={setEmail}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Gender Here"
-          underlineColorAndroid="transparent"
-          value={gender}
-          onChangeText={setGender}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Image
-          style={styles.ImageStyle}
-          source={{
-            uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-          }}
-        />
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Your Contact Number Here"
-          underlineColorAndroid="transparent"
-          value={contactNumber}
-          onChangeText={setContactNumber}
-        />
-      </View>
-      <Button color="#199A8E" title="Submit" onPress={handleAddPatient} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

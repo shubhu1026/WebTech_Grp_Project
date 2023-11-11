@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Button, Alert } from "react-native";
 
 import PatientList from "../components/PatientList";
+import CriticalPatientList from "../components/CriticalPatientList";
 
 const PatientListScreen = ({ route, navigation }) => {
   const [refreshList, setRefreshList] = useState(false);
@@ -23,6 +24,11 @@ const PatientListScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <CriticalPatientList
+        navigation={navigation}
+        refreshList={refreshList}
+        onRefresh={handleRefreshList}
+      />
       <View style={styles.patientList}>
         {/* Pass refreshList and handleRefreshList as props to PatientList */}
         <PatientList
