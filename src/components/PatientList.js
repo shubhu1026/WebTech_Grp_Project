@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,30 +8,41 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
 
-const PatientList = ({ navigation }) => {
+const PatientList = ({ navigation, refreshList, onRefresh }) => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Make an API call to fetch patient data
-    fetch(`${API_BASE_URL}/patients`, {
-      method: "GET",
-      headers: {
-        // set headers
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setPatients(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      // Make an API call to fetch patient data
+      const response = await fetch(`${API_BASE_URL}/patients`, {
+        method: "GET",
+        headers: {
+          // set headers
+        },
       });
+      const data = await response.json();
+      setPatients(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+
+      // Reset refreshList to false after fetching data
+      if (refreshList) {
+        onRefresh(); // Call the onRefresh callback to reset refreshList in the parent
+      }
+    }, [refreshList, onRefresh, fetchData])
+  );
 
   if (loading) {
     return (

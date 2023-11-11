@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   patientListContainer: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderRadius: 24,
     width: "100%",
     height: 200,
     padding: 25,
