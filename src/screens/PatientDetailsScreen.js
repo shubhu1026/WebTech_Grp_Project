@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import {
   useNavigation,
@@ -57,8 +58,43 @@ const PatientDetailsScreen = () => {
   };
 
   const handleDeletePatient = () => {
-    // Perform the delete operation here
-    // After deleting, you may want to navigate back to the patient list or any other screen
+    // Display an alert for confirmation
+    Alert.alert(
+      "Delete Patient",
+      "Are you sure you want to delete this patient?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            fetch(`${API_BASE_URL}/patients/${id}`, {
+              method: "DELETE",
+              headers: {
+                // Include any necessary headers
+              },
+            })
+              .then((response) => {
+                if (response.ok) {
+                  console.log("Patient deleted successfully");
+                  // Pass a message to PatientListScreen
+                  navigation.navigate("PatientListScreen", {
+                    message: "Patient deleted successfully",
+                  });
+                } else {
+                  console.error("Failed to delete patient");
+                }
+              })
+              .catch((error) => {
+                console.error("Error deleting patient:", error);
+              });
+          },
+        },
+      ]
+    );
   };
 
   if (loading) {

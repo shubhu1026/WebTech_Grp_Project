@@ -1,15 +1,25 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Button, Alert } from "react-native";
 
 import PatientList from "../components/PatientList";
 
-const PatientListScreen = ({ navigation }) => {
+const PatientListScreen = ({ route, navigation }) => {
   const [refreshList, setRefreshList] = useState(false);
 
   const handleRefreshList = () => {
     // Set refreshList to true to trigger a re-fetch
     setRefreshList(true);
   };
+
+  // Extract the message from the route parameters
+  const message = route.params?.message;
+
+  useEffect(() => {
+    if (message) {
+      // Show an alert if a message is received
+      Alert.alert("Info", message);
+    }
+  }, [message]);
 
   return (
     <View style={styles.container}>
