@@ -9,6 +9,7 @@ import PatientDetailsScreen from "./src/screens/PatientDetailsScreen";
 import PatientTestsScreen from "./src/screens/PatientTestsScreen";
 import AddTestScreen from "./src/screens/AddTestScreen";
 import EditTestScreen from "./src/screens/EditTestScreen";
+import UpdatePatientScreen from "./src/screens/UpdatePatientScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ const App = () => {
         <Stack.Screen
           name="PatientDetailsScreen"
           component={PatientDetailsScreen}
+        />
+        <Stack.Screen
+          name="UpdatePatientScreen"
+          component={UpdatePatientScreen}
         />
         <Stack.Screen
           name="PatientTestsScreen"

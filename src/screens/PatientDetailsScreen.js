@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Button,
-  ActivityIndicator,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from "@react-navigation/native";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import API_BASE_URL from "../api/apiconfig";
 
-const PatientDetailsScreen = ({ route }) => {
+const PatientDetailsScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
   const [patientDetails, setPatientDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,12 +25,12 @@ const PatientDetailsScreen = ({ route }) => {
   // Get the patient ID from the route parameters
   const { id } = route.params;
 
-  useEffect(() => {
+  const fetchPatientDetails = useCallback(() => {
     // Make an API call to fetch patient details using the ID
     fetch(`${API_BASE_URL}/patients/${id}`, {
       method: "GET",
       headers: {
-        //set headers here
+        // set headers here
       },
     })
       .then((response) => response.json())
@@ -37,7 +42,24 @@ const PatientDetailsScreen = ({ route }) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
+
+  // Use useFocusEffect to refetch data when the screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      fetchPatientDetails();
+    }, [fetchPatientDetails])
+  );
+
+  const handleUpdatePatient = () => {
+    // Navigate to the update screen, passing the patient ID
+    navigation.navigate("UpdatePatientScreen", { patientId: id });
+  };
+
+  const handleDeletePatient = () => {
+    // Perform the delete operation here
+    // After deleting, you may want to navigate back to the patient list or any other screen
+  };
 
   if (loading) {
     return (
@@ -59,6 +81,12 @@ const PatientDetailsScreen = ({ route }) => {
     <View style={styles.container}>
       <Text style={styles.mainText}>Patient Details</Text>
       <View style={styles.detailsCard}>
+        <TouchableOpacity
+          style={styles.updateIcon}
+          onPress={handleUpdatePatient}
+        >
+          <FontAwesomeIcon name="pencil" size={20} color="#199A8E" />
+        </TouchableOpacity>
         <Image
           style={styles.ImageStyle}
           source={{
@@ -83,12 +111,6 @@ const PatientDetailsScreen = ({ route }) => {
         <Text style={styles.info}>
           <Text style={styles.infoHeading}>Email :</Text> {patientDetails.email}
         </Text>
-        {/* <Button color="#199A8E"
-        title="View Test Records"
-        onPress={() => {
-          navigation.navigate("PatientTestsScreen", { patientId: id });
-        }}
-      /> */}
         <TouchableOpacity
           style={styles.viewTestRecordBtn}
           onPress={() => {
@@ -96,6 +118,14 @@ const PatientDetailsScreen = ({ route }) => {
           }}
         >
           <Text style={styles.viewTestRecordBtnText}>View Test Records</Text>
+        </TouchableOpacity>
+
+        {/* Add trash bin icon for delete button */}
+        <TouchableOpacity
+          style={styles.deleteIcon}
+          onPress={handleDeletePatient}
+        >
+          <FontAwesomeIcon name="trash" size={20} color="#FF6347" />
         </TouchableOpacity>
       </View>
     </View>
@@ -117,6 +147,7 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   detailsCard: {
+    position: "relative",
     width: "100%",
     height: 320,
     justifyContent: "center",
@@ -163,6 +194,16 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     lineHeight: 40,
     alignSelf: "center",
+  },
+  updateIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
+  deleteIcon: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
 });
 
