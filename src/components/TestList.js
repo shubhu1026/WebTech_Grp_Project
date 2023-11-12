@@ -1,61 +1,67 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import API_BASE_URL from "../api/apiconfig";
 
-const TestList = () => {
-  const navigation = useNavigation();
-  // sample data
-  const tests = [
-    {
-      id: 1,
-      testName: "Blood Pressure Test",
-      testDate: "2023-10-30",
-      nurseName: "Jane Smith",
-      testTime: "10:30 AM",
-      category: "Cardiovascular",
-      readings: "120/80 mmHg",
-      condition: "Normal",
-    },
-    {
-      id: 2,
-      testName: "Cholesterol Test",
-      testDate: "2023-10-30",
-      nurseName: "John Doe",
-      testTime: "11:15 AM",
-      category: "Cardiovascular",
-      readings: "Total: 180 mg/dL",
-      condition: "High",
-    },
-    {
-      id: 3,
-      testName: "Blood Sugar Test",
-      testDate: "2023-10-30",
-      nurseName: "Alice Johnson",
-      testTime: "12:00 PM",
-      category: "Metabolic",
-      readings: "Fasting: 90 mg/dL",
-      condition: "Normal",
-    },
-    {
-      id: 4,
-      testName: "Cholesterol Test",
-      testDate: "2023-10-20",
-      nurseName: "Jessica Wright",
-      testTime: "11:55 AM",
-      category: "Cardiovascular",
-      readings: "Total: 180 mg/dL",
-      condition: "High",
-    },
-  ];
+const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
+  const [tests, setTests] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  console.log(patientId);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/patients/${patientId}/medicalTests`,
+        {
+          method: "GET",
+          headers: {
+            // set headers
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setTests(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+      // Display an error message to the user, e.g., setTests([]);
+    }
+  }, [patientId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+
+      // Reset refreshList to false after fetching data
+      if (refreshList) {
+        onRefresh();
+      }
+    }, [refreshList, onRefresh, fetchData])
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
 
   const handleEditTest = (test) => {
-    // Add code to handle editing the selected test
     navigation.navigate("EditTestScreen", { test });
   };
 
@@ -68,16 +74,30 @@ const TestList = () => {
       <Text style={styles.listTitle}>List of Tests</Text>
       <FlatList
         data={tests}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Text style={styles.name}>{item.testName}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Test Date :</Text>  {item.testDate}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Nurse :</Text>  {item.nurseName}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Test Time :</Text>  {item.testTime}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Category :</Text>  {item.category}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Readings :</Text>  {item.readings}</Text>
-            <Text style={styles.info}><Text style={styles.infoHeading}>Condition :</Text>  {item.condition}</Text>
+            <Text style={styles.name}>{item.testType}</Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Test Date :</Text> {item.date}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Nurse :</Text> {item.nurse}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Test Time :</Text>{" "}
+              {item.testTime}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Category :</Text> {item.category}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Readings :</Text> {item.readings}
+            </Text>
+            <Text style={styles.info}>
+              <Text style={styles.infoHeading}>Condition :</Text>{" "}
+              {item.condition}
+            </Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.editButton}
@@ -101,12 +121,15 @@ const TestList = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width : '100%',
-    height : '100%',
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
   },
   listTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    color: "#101623",
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 15,
     marginBottom: 10,
     textAlign: "center",
   },
@@ -120,46 +143,51 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    height: 270
+    height: 270,
   },
   name: {
     fontSize: 18,
     fontWeight: "600",
     color: "#101623",
-    marginTop : 10,
-    marginBottom: 10, 
+    marginTop: 10,
+    marginBottom: 10,
   },
-  infoHeading : {
+  infoHeading: {
     fontSize: 15,
-    color : "#000",
-    fontWeight : "600",
+    color: "#000",
+    fontWeight: "600",
   },
   info: {
     fontSize: 14,
-    color : "#3B4453",
-    marginBottom: 8, 
+    color: "#3B4453",
+    marginBottom: 8,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   editButton: {
-    marginTop : 10,
+    marginTop: 10,
     backgroundColor: "#199A8E",
     padding: 10,
-    width : 70,
+    width: 70,
     borderRadius: 8,
   },
   deleteButton: {
-    marginTop : 10,
+    marginTop: 10,
     backgroundColor: "#e22f28",
     padding: 10,
-    width : 70,
+    width: 70,
     borderRadius: 8,
   },
   buttonText: {
     color: "white",
     textAlign: "center",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

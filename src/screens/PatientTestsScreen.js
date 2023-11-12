@@ -55,9 +55,8 @@ const PatientTestsScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{patientDetails.firstName}'s Tests</Text>
-
       <View style={styles.testListContainer}>
-        <TestList />
+        <TestList patientId={patientId} />
       </View>
 
       <Button

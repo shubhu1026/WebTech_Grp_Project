@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#101623",
   },
   infoHeading: {
     fontSize: 16,
@@ -123,7 +122,6 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 14,
-    color: "#3B4453",
     marginTop: 7,
   },
   loadingContainer: {

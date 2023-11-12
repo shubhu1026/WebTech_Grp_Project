@@ -58,6 +58,7 @@ const PatientList = ({ navigation, refreshList, onRefresh }) => {
       <FlatList
         data={patients}
         keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
