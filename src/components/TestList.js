@@ -6,15 +6,56 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(patientId);
+  const handleEditTest = (testId) => {
+    navigation.navigate("EditTestScreen", { testId });
+  };
+
+  const handleDeleteTest = (testId) => {
+    // Display an alert for confirmation
+    Alert.alert("Delete Test", "Are you sure you want to delete this test?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          fetch(
+            `${API_BASE_URL}/patients/${patientId}/medicalTests/${testId}`,
+            {
+              method: "DELETE",
+              headers: {
+                // Include any necessary headers
+              },
+            }
+          )
+            .then((response) => {
+              if (response.ok) {
+                console.log("Test deleted successfully");
+                // Refresh the test list
+                fetchData();
+              } else {
+                console.error("Failed to delete test");
+              }
+            })
+            .catch((error) => {
+              console.error("Error deleting test:", error);
+            });
+        },
+      },
+    ]);
+  };
 
   const fetchData = useCallback(async () => {
     try {
@@ -61,13 +102,14 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
     );
   }
 
-  const handleEditTest = (test) => {
-    navigation.navigate("EditTestScreen", { test });
-  };
-
-  const handleDeleteTest = (test) => {
-    // Add code to handle deleting the selected test
-  };
+  // Check if the tests array is empty
+  if (tests.length === 0) {
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={styles.listTitle}>No test records found.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -76,7 +118,13 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
         data={tests}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <View
+            style={
+              item.condition.toLowerCase() === "critical"
+                ? styles.criticalCard
+                : styles.card
+            }
+          >
             <Text style={styles.name}>{item.testType}</Text>
             <Text style={styles.info}>
               <Text style={styles.infoHeading}>Test Date :</Text> {item.date}
@@ -101,15 +149,15 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.editButton}
-                onPress={() => handleEditTest(item)}
+                onPress={() => handleEditTest(item._id)}
               >
-                <Text style={styles.buttonText}>Edit</Text>
+                <FontAwesomeIcon name="pencil" size={20} color="#000000" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.deleteButton}
-                onPress={() => handleDeleteTest(item)}
+                onPress={() => handleDeleteTest(item._id)}
               >
-                <Text style={styles.buttonText}>Delete</Text>
+                <FontAwesomeIcon name="trash" size={20} color="#000000" />
               </TouchableOpacity>
             </View>
           </View>
@@ -135,7 +183,23 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#E8F3F1",
-    padding: 10,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    margin: 10,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: "#E8F3F1",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    height: 270,
+  },
+  criticalCard: {
+    backgroundColor: "#FE5F55",
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     margin: 10,
     borderRadius: 12,
     elevation: 3,
@@ -159,7 +223,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 14,
-    color: "#3B4453",
+    color: "#000000",
     marginBottom: 8,
   },
   buttonContainer: {
@@ -167,18 +231,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   editButton: {
-    marginTop: 10,
-    backgroundColor: "#199A8E",
-    padding: 10,
-    width: 70,
-    borderRadius: 8,
+    position: "absolute",
+    right: 10,
   },
   deleteButton: {
-    marginTop: 10,
-    backgroundColor: "#e22f28",
-    padding: 10,
-    width: 70,
-    borderRadius: 8,
+    position: "absolute",
+    left: 10,
   },
   buttonText: {
     color: "white",
