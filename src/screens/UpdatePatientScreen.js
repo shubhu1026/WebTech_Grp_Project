@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -205,20 +206,56 @@ const UpdatePatientScreen = () => {
             onChangeText={setEmail}
           />
         </View>
-        <View style={styles.SectionStyle}>
-          <Image
-            style={styles.ImageStyle}
-            source={{
-              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-            }}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Your Gender Here"
-            underlineColorAndroid="transparent"
-            value={gender}
-            onChangeText={setGender}
-          />
+        <View
+          style={[
+            styles.SectionStyle,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            },
+          ]}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image
+              style={styles.ImageStyle}
+              source={{
+                uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+              }}
+            />
+            <Text style={{ fontWeight: "bold", marginLeft: 10 }}>Gender:</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() => setGender("Male")}
+              style={[
+                styles.genderButton,
+                {
+                  borderColor: gender === "Male" ? "#199A8E" : "#A6A6A6",
+                },
+              ]}
+            >
+              {gender === "Male" && (
+                <View style={styles.genderButtonSelected} />
+              )}
+            </TouchableOpacity>
+            <Text style={{ marginLeft: 10 }}>Male</Text>
+
+            <TouchableOpacity
+              onPress={() => setGender("Female")}
+              style={[
+                styles.genderButton,
+                {
+                  borderColor: gender === "Female" ? "#199A8E" : "#A6A6A6",
+                },
+              ]}
+            >
+              {gender === "Female" && (
+                <View style={styles.genderButtonSelected} />
+              )}
+            </TouchableOpacity>
+            <Text style={{ marginLeft: 10 }}>Female</Text>
+          </View>
         </View>
         <View style={styles.SectionStyle}>
           <Image
@@ -279,6 +316,21 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     alignItems: "center",
     marginRight: 10,
+  },
+  genderButton: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
+  },
+  genderButtonSelected: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: "#199A8E",
   },
 });
 

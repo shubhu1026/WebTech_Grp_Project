@@ -6,7 +6,9 @@ import {
   Button,
   StyleSheet,
   Image,
+  TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
@@ -51,7 +53,6 @@ const AddPatientScreen = () => {
       contactNumber: contactNumber,
     };
 
-    // Make a POST request to your server to add the new patient
     fetch(`${API_BASE_URL}/patients`, {
       method: "POST",
       headers: {
@@ -61,18 +62,33 @@ const AddPatientScreen = () => {
     })
       .then((response) => {
         if (response.ok) {
-          // Patient added successfully, you can navigate or handle it as needed
+          // Patient added successfully
           console.log("Patient added successfully");
-          navigation.goBack();
+          // Display an alert
+          Alert.alert("Success", "Patient added successfully", [
+            {
+              text: "OK",
+              onPress: () => {
+                // Navigate to the previous screen or handle it as needed
+                navigation.goBack();
+              },
+            },
+          ]);
         } else {
           // Handle error response from the server
           console.error("Failed to add patient");
+          Alert.alert("Error", "Failed to add patient");
         }
       })
       .catch((error) => {
         // Handle network error or other issues
         console.error("Error adding patient:", error);
+        Alert.alert("Error", "Error adding patient");
       });
+  };
+
+  const handleGenderChange = (value) => {
+    setGender(value);
   };
 
   return (
@@ -169,21 +185,59 @@ const AddPatientScreen = () => {
             onChangeText={setEmail}
           />
         </View>
-        <View style={styles.SectionStyle}>
-          <Image
-            style={styles.ImageStyle}
-            source={{
-              uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
-            }}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Your Gender Here"
-            underlineColorAndroid="transparent"
-            value={gender}
-            onChangeText={setGender}
-          />
+
+        <View
+          style={[
+            styles.SectionStyle,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            },
+          ]}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image
+              style={styles.ImageStyle}
+              source={{
+                uri: "https://qdesq.imagekit.io/image/upload/v1698460939/zi2knr00xg6st5nv4szz.png",
+              }}
+            />
+            <Text style={{ fontWeight: "bold", marginLeft: 10 }}>Gender:</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() => handleGenderChange("Male")}
+              style={[
+                styles.genderButton,
+                {
+                  borderColor: gender === "Male" ? "#199A8E" : "#A6A6A6",
+                },
+              ]}
+            >
+              {gender === "Male" && (
+                <View style={styles.genderButtonSelected} />
+              )}
+            </TouchableOpacity>
+            <Text style={{ marginLeft: 10 }}>Male</Text>
+
+            <TouchableOpacity
+              onPress={() => handleGenderChange("Female")}
+              style={[
+                styles.genderButton,
+                {
+                  borderColor: gender === "Female" ? "#199A8E" : "#A6A6A6",
+                },
+              ]}
+            >
+              {gender === "Female" && (
+                <View style={styles.genderButtonSelected} />
+              )}
+            </TouchableOpacity>
+            <Text style={{ marginLeft: 10 }}>Female</Text>
+          </View>
         </View>
+
         <View style={styles.SectionStyle}>
           <Image
             style={styles.ImageStyle}
@@ -247,6 +301,21 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     alignItems: "center",
     marginRight: 10,
+  },
+  genderButton: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
+  },
+  genderButtonSelected: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: "#199A8E",
   },
 });
 

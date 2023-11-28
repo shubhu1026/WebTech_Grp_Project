@@ -36,6 +36,10 @@ const PatientTestsScreen = ({ route, navigation }) => {
       });
   }, []);
 
+  const handleEditTest = (testId) => {
+    navigation.navigate("EditTestScreen", { testId, patientId });
+  };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -56,14 +60,18 @@ const PatientTestsScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{patientDetails.firstName}'s Tests</Text>
       <View style={styles.testListContainer}>
-        <TestList patientId={patientId} />
+        <TestList
+          patientId={patientId}
+          handleEditTest={handleEditTest}
+          navigation={navigation}
+        />
       </View>
 
       <Button
         color="#199A8E"
         title="Add New Test"
         onPress={() => {
-          navigation.navigate("AddTestScreen");
+          navigation.navigate("AddTestScreen", { patientId });
         }}
         style={styles.addButton}
       />

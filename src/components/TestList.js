@@ -17,7 +17,7 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
   const [loading, setLoading] = useState(true);
 
   const handleEditTest = (testId) => {
-    navigation.navigate("EditTestScreen", { testId });
+    navigation.navigate("EditTestScreen", { testId, patientId });
   };
 
   const handleDeleteTest = (testId) => {
