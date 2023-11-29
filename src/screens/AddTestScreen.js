@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
 
+import TestTypeDropdown from "../components/TestTypeDropdown";
+
 const AddTestScreen = ({ navigation }) => {
   const route = useRoute();
   const { patientId } = route.params;
@@ -57,15 +59,7 @@ const AddTestScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add Test Details </Text>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Test Name"
-          underlineColorAndroid="transparent"
-          value={testType}
-          onChangeText={(text) => setTestType(text)}
-        />
-      </View>
+      <TestTypeDropdown onValueChange={setTestType} />
       <View style={styles.SectionStyle}>
         <TextInput
           style={{ flex: 1 }}
