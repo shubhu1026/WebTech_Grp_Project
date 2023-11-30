@@ -1,18 +1,16 @@
 import React from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 
-const TestTypeDropdown = ({ onValueChange }) => {
+const ConditionDropdown = ({ onValueChange }) => {
   const data = [
-    { key: "Blood Pressure Test", value: "Blood Pressure Test" },
-    { key: "Blood Sugar Test", value: "Blood Sugar Test" },
-    { key: "Cholesterol Test", value: "Cholesterol Test" },
-    { key: "Complete Blood Count (CBC)", value: "Complete Blood Count (CBC)" },
+    { key: "Critical", value: "Critical" },
+    { key: "Normal", value: "Normal" },
+    { key: "Healthy", value: "Healthy" },
   ];
 
   return (
     <SelectList
-      testID="selectList"
-      placeholder="Select Test Type"
+      placeholder="Condition"
       search={false}
       data={data}
       setSelected={onValueChange}
@@ -52,4 +50,4 @@ const styles = {
   },
 };
 
-export default TestTypeDropdown;
+export default ConditionDropdown;

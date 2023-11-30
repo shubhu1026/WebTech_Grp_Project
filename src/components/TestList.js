@@ -97,7 +97,11 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator
+          testID="loading-indicator"
+          size="large"
+          color="#007AFF"
+        />
       </View>
     );
   }
@@ -106,7 +110,9 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
   if (tests.length === 0) {
     return (
       <View style={styles.mainContainer}>
-        <Text style={styles.listTitle}>No test records found.</Text>
+        <Text testID="no-records-text" style={styles.listTitle}>
+          No test records found.
+        </Text>
       </View>
     );
   }

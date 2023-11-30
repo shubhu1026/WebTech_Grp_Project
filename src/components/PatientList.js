@@ -47,7 +47,11 @@ const PatientList = ({ navigation, refreshList, onRefresh }) => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator
+          testID="loading-indicator"
+          size="large"
+          color="#007AFF"
+        />
       </View>
     );
   }

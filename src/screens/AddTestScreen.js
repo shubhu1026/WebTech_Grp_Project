@@ -1,9 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Keyboard,
+} from "react-native";
 import { useRoute } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
 
 import TestTypeDropdown from "../components/TestTypeDropdown";
+import ConditionDropdown from "../components/ConditionDropdown";
+import DatePicker from "../components/DatePicker";
+import TimePicker from "../components/TimePicker";
 
 const AddTestScreen = ({ navigation }) => {
   const route = useRoute();
@@ -11,12 +23,19 @@ const AddTestScreen = ({ navigation }) => {
 
   const [testType, setTestType] = useState("");
   const [testDate, setTestDate] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const [nurse, setNurse] = useState("");
   const [testTime, setTestTime] = useState("");
+  const [showTimePicker, setShowTimePicker] = useState(false);
+
   const [category, setCategory] = useState("");
   const [readings, setReadings] = useState("");
   const [condition, setCondition] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
+
+  const [formattedTestDate, setFormattedTestDate] = useState("");
+  const [formattedTestTime, setFormattedTestTime] = useState("");
 
   const handleAddTest = async () => {
     try {
@@ -56,82 +75,131 @@ const AddTestScreen = ({ navigation }) => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Add Test Details </Text>
-      <TestTypeDropdown onValueChange={setTestType} />
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Test Date"
-          underlineColorAndroid="transparent"
-          value={testDate}
-          onChangeText={(text) => setTestDate(text)}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Test Diagnosis"
-          underlineColorAndroid="transparent"
-          value={diagnosis}
-          onChangeText={(text) => setDiagnosis(text)}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Nurse Name"
-          underlineColorAndroid="transparent"
-          value={nurse}
-          onChangeText={(text) => setNurse(text)}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Test Time"
-          underlineColorAndroid="transparent"
-          value={testTime}
-          onChangeText={(text) => setTestTime(text)}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Category"
-          underlineColorAndroid="transparent"
-          value={category}
-          onChangeText={(text) => setCategory(text)}
-        />
-      </View>
+  const showDatePickerOnClick = () => {
+    Keyboard.dismiss();
+    setShowDatePicker(true);
+  };
 
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Readings"
-          underlineColorAndroid="transparent"
-          value={readings}
-          onChangeText={(text) => setReadings(text)}
-        />
+  const onDateChange = (selectedDate) => {
+    setTestDate(selectedDate); // Store the date as a Date object
+    setFormattedTestDate(formatDate(selectedDate)); // Format and store the string representation
+    setShowDatePicker(false);
+  };
+
+  const onTimeChange = (selectedTime) => {
+    setTestTime(selectedTime); // Store the time as a Date object
+    setFormattedTestTime(formatTime(selectedTime)); // Format and store the string representation
+    setShowTimePicker(false);
+  };
+
+  const formatDate = (date) => {
+    // Function to format the date as needed (for example)
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (time) => {
+    const options = { hour: "numeric", minute: "2-digit" };
+    return time.toLocaleTimeString(undefined, options);
+  };
+
+  return (
+    <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
+      <View style={styles.innerContainer}>
+        <Text style={styles.title}>Add Test Details </Text>
+        <TestTypeDropdown onValueChange={setTestType} />
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Test Date"
+            onFocus={showDatePickerOnClick}
+            value={formattedTestDate}
+            onChangeText={(text) => setFormattedTestDate(text)}
+          />
+          {showDatePicker && (
+            <DatePicker
+              date={testDate ? testDate : new Date()} // Pass the Date object
+              themeVariant="light"
+              onDateChange={onDateChange}
+            />
+          )}
+        </View>
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Test Diagnosis"
+            underlineColorAndroid="transparent"
+            value={diagnosis}
+            onChangeText={(text) => setDiagnosis(text)}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Nurse Name"
+            underlineColorAndroid="transparent"
+            value={nurse}
+            onChangeText={(text) => setNurse(text)}
+          />
+        </View>
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Test Time"
+            onFocus={() => setShowTimePicker(true)}
+            value={formattedTestTime}
+            onChangeText={(text) => setFormattedTestTime(text)}
+          />
+        </View>
+
+        {showTimePicker && (
+          <TimePicker
+            testTime={testTime ? testTime : new Date()}
+            onTimeChange={onTimeChange}
+          />
+        )}
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Category"
+            underlineColorAndroid="transparent"
+            value={category}
+            onChangeText={(text) => setCategory(text)}
+          />
+        </View>
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Readings"
+            underlineColorAndroid="transparent"
+            value={readings}
+            onChangeText={(text) => setReadings(text)}
+          />
+        </View>
+        <ConditionDropdown onValueChange={setCondition} />
+        <View style={styles.buttonContainer}>
+          <Button color="#199A8E" title="Submit" onPress={handleAddTest} />
+        </View>
       </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Enter Condition"
-          underlineColorAndroid="transparent"
-          value={condition}
-          onChangeText={(text) => setCondition(text)}
-        />
-      </View>
-      <Button color="#199A8E" title="Submit" onPress={handleAddTest} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+    paddingVertical: 16,
+  },
+  innerContainer: {
     padding: 16,
   },
   title: {
@@ -169,6 +237,9 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     alignItems: "center",
     marginRight: 10,
+  },
+  buttonContainer: {
+    marginVertical: 20,
   },
 });
 

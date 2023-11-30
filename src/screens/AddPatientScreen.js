@@ -7,25 +7,29 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Keyboard,
   KeyboardAvoidingView,
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
+import DatePicker from "../components/DatePicker";
 
 const AddPatientScreen = () => {
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState(new Date());
   const [doctor, setDoctor] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [formattedBirthDate, setFormattedBirthDate] = useState("");
+
   const handleAddPatient = () => {
-    // Validate required fields before making the request
     if (
       !firstName ||
       !lastName ||
@@ -38,6 +42,7 @@ const AddPatientScreen = () => {
     ) {
       // Display an error message or handle it as needed
       console.error("All fields must be filled");
+      Alert.alert("Error", "All fields must be filled");
       return;
     }
 
@@ -91,6 +96,22 @@ const AddPatientScreen = () => {
     setGender(value);
   };
 
+  const showDatePickerOnClick = () => {
+    Keyboard.dismiss();
+    setShowDatePicker(true);
+  };
+
+  const onDateChange = (selectedDate) => {
+    setDob(selectedDate); // Store the date as a Date object
+    setFormattedBirthDate(formatDate(selectedDate)); // Format and store the string representation
+    setShowDatePicker(false);
+  };
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return date.toLocaleDateString(undefined, options);
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
       <View>
@@ -140,21 +161,30 @@ const AddPatientScreen = () => {
             onChangeText={setAddress}
           />
         </View>
-        <View style={styles.SectionStyle}>
+
+        <TouchableOpacity
+          style={[styles.SectionStyle, { alignItems: "center" }]}
+          onPress={showDatePickerOnClick}
+        >
           <Image
             style={styles.ImageStyle}
             source={{
               uri: "https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png",
             }}
           />
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Your Date of Birth Here"
-            underlineColorAndroid="transparent"
-            value={dob}
-            onChangeText={setDob}
+          <Text style={{ flex: 1, paddingLeft: 5, color: "#000" }}>
+            {formattedBirthDate || "Enter Date of Birth"}
+          </Text>
+        </TouchableOpacity>
+
+        {showDatePicker && (
+          <DatePicker
+            date={dob ? dob : new Date()} // Pass the Date object
+            themeVariant="light"
+            onDateChange={onDateChange}
           />
-        </View>
+        )}
+
         <View style={styles.SectionStyle}>
           <Image
             style={styles.ImageStyle}
@@ -253,7 +283,9 @@ const AddPatientScreen = () => {
             onChangeText={setContactNumber}
           />
         </View>
-        <Button color="#199A8E" title="Submit" onPress={handleAddPatient} />
+        <View style={styles.buttonContainer}>
+          <Button color="#199A8E" title="Submit" onPress={handleAddPatient} />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -316,6 +348,9 @@ const styles = StyleSheet.create({
     width: 12,
     borderRadius: 6,
     backgroundColor: "#199A8E",
+  },
+  buttonContainer: {
+    marginVertical: 20,
   },
 });
 
