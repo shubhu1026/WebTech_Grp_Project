@@ -7,11 +7,14 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
+
+import DatePicker from "../components/DatePicker";
 
 const UpdatePatientScreen = () => {
   const navigation = useNavigation();
@@ -28,6 +31,9 @@ const UpdatePatientScreen = () => {
   const [gender, setGender] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [formattedBirthDate, setFormattedBirthDate] = useState("");
 
   const showAlert = (title, message) => {
     Alert.alert(title, message, [{ text: "OK" }], { cancelable: false });
@@ -102,6 +108,7 @@ const UpdatePatientScreen = () => {
         setLastName(data.lastName);
         setAddress(data.address);
         setDob(data.dateOfBirth);
+        setFormattedBirthDate(data.dateOfBirth);
         setDoctor(data.doctor);
         setEmail(data.email);
         setGender(data.gender);
@@ -111,6 +118,22 @@ const UpdatePatientScreen = () => {
         console.error("Error fetching patient details:", error);
       });
   }, [patientId]);
+
+  const showDatePickerOnClick = () => {
+    Keyboard.dismiss();
+    setShowDatePicker(true);
+  };
+
+  const onDateChange = (selectedDate) => {
+    setDob(selectedDate); // Store the date as a string
+    setFormattedBirthDate(formatDate(selectedDate)); // Format and store the string representation
+    setShowDatePicker(false);
+  };
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return date.toLocaleDateString(undefined, options);
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
@@ -161,21 +184,34 @@ const UpdatePatientScreen = () => {
             onChangeText={setAddress}
           />
         </View>
-        <View style={styles.SectionStyle}>
+
+        <TouchableOpacity
+          style={[styles.SectionStyle, { alignItems: "center" }]}
+          onPress={showDatePickerOnClick}
+          testID="datePickerButton"
+        >
           <Image
             style={styles.ImageStyle}
             source={{
               uri: "https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png",
             }}
           />
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Your Date of Birth Here"
-            underlineColorAndroid="transparent"
-            value={dob}
-            onChangeText={setDob}
+          <Text
+            testID="dateOfBirthText"
+            style={{ flex: 1, paddingLeft: 5, color: "#000" }}
+          >
+            {formattedBirthDate || "Enter Date of Birth"}
+          </Text>
+        </TouchableOpacity>
+
+        {showDatePicker && (
+          <DatePicker
+            date={dob ? new Date(dob) : new Date()} // Pass the Date object
+            themeVariant="light"
+            onDateChange={onDateChange}
           />
-        </View>
+        )}
+
         <View style={styles.SectionStyle}>
           <Image
             style={styles.ImageStyle}
