@@ -165,6 +165,7 @@ const AddPatientScreen = () => {
         <TouchableOpacity
           style={[styles.SectionStyle, { alignItems: "center" }]}
           onPress={showDatePickerOnClick}
+          testID="datePickerButton"
         >
           <Image
             style={styles.ImageStyle}
@@ -172,7 +173,10 @@ const AddPatientScreen = () => {
               uri: "https://qdesq.imagekit.io/image/upload/v1698460916/lxurygprl4beniwteddn.png",
             }}
           />
-          <Text style={{ flex: 1, paddingLeft: 5, color: "#000" }}>
+          <Text
+            testID="dateOfBirthText"
+            style={{ flex: 1, paddingLeft: 5, color: "#000" }}
+          >
             {formattedBirthDate || "Enter Date of Birth"}
           </Text>
         </TouchableOpacity>

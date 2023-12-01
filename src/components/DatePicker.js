@@ -4,7 +4,16 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DatePicker = ({ date, onDateChange }) => {
   const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date || new Date();
+    let currentDate = selectedDate || date || new Date();
+
+    if (Platform.OS === "android") {
+      currentDate = event.nativeEvent.timestamp
+        ? new Date(event.nativeEvent.timestamp)
+        : currentDate;
+    } else {
+      currentDate = selectedDate || date || new Date();
+    }
+
     onDateChange(currentDate);
   };
 

@@ -13,6 +13,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <Image
+        testID="homepageImage"
         style={styles.homepageImage}
         source={{
           uri: "https://qdesq.imagekit.io/image/upload/v1698453219/o5rlevyuun0dxtepezsj.png",
