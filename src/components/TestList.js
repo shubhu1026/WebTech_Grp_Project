@@ -133,7 +133,8 @@ const TestList = ({ navigation, refreshList, onRefresh, patientId }) => {
           >
             <Text style={styles.name}>{item.testType}</Text>
             <Text style={styles.info}>
-              <Text style={styles.infoHeading}>Test Date :</Text> {item.date}
+              <Text style={styles.infoHeading}>Test Date :</Text>
+              {new Date(item.date).toLocaleDateString()}
             </Text>
             <Text style={styles.info}>
               <Text style={styles.infoHeading}>Nurse :</Text> {item.nurse}

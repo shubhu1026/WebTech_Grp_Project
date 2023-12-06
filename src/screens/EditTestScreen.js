@@ -81,6 +81,28 @@ const EditTestScreen = () => {
 
   const handleSave = async () => {
     try {
+      if (
+        !editedTest.testType.trim() ||
+        !formattedTestDate.trim() ||
+        !editedTest.diagnosis.trim() ||
+        !editedTest.nurse.trim() ||
+        !formattedTestTime.trim() ||
+        !editedTest.category.trim() ||
+        !editedTest.readings.trim() ||
+        !editedTest.condition.trim()
+      ) {
+        Alert.alert("Error", "All fields must be filled");
+        return;
+      }
+
+      const isValidDate =
+        new Date(editedTest.testDate) instanceof Date &&
+        !isNaN(new Date(editedTest.testDate));
+      if (!isValidDate) {
+        Alert.alert("Error", "Please enter a valid test date");
+        return;
+      }
+
       const response = await fetch(
         `${API_BASE_URL}/patients/${patientId}/medicalTests/${testId}`,
         {
@@ -124,7 +146,7 @@ const EditTestScreen = () => {
   };
 
   const formatDate = (date) => {
-    // Function to format the date as needed (for example)
+    // Function to format the date as needed
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return date.toLocaleDateString(undefined, options);
   };

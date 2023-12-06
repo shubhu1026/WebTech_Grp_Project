@@ -29,24 +29,27 @@ const AddPatientScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [formattedBirthDate, setFormattedBirthDate] = useState("");
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleAddPatient = () => {
     if (
-      !firstName ||
-      !lastName ||
-      !address ||
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !address.trim() ||
       !dob ||
-      !doctor ||
-      !email ||
-      !gender ||
-      !contactNumber
+      !doctor.trim() ||
+      !validateEmail(email) ||
+      !gender.trim() ||
+      !contactNumber.trim()
     ) {
-      // Display an error message or handle it as needed
       console.error("All fields must be filled");
       Alert.alert("Error", "All fields must be filled");
       return;
     }
 
-    // Create a new patient object with the entered data
     const newPatient = {
       firstName: firstName,
       lastName: lastName,
@@ -67,26 +70,21 @@ const AddPatientScreen = () => {
     })
       .then((response) => {
         if (response.ok) {
-          // Patient added successfully
           console.log("Patient added successfully");
-          // Display an alert
           Alert.alert("Success", "Patient added successfully", [
             {
               text: "OK",
               onPress: () => {
-                // Navigate to the previous screen or handle it as needed
                 navigation.goBack();
               },
             },
           ]);
         } else {
-          // Handle error response from the server
           console.error("Failed to add patient");
           Alert.alert("Error", "Failed to add patient");
         }
       })
       .catch((error) => {
-        // Handle network error or other issues
         console.error("Error adding patient:", error);
         Alert.alert("Error", "Error adding patient");
       });

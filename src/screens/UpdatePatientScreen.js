@@ -41,14 +41,14 @@ const UpdatePatientScreen = () => {
 
   const handleUpdatePatient = () => {
     if (
-      !firstName ||
-      !lastName ||
-      !address ||
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !address.trim() ||
       !dob ||
-      !doctor ||
-      !email ||
-      !gender ||
-      !contactNumber
+      !doctor.trim() ||
+      !email.trim() ||
+      !gender.trim() ||
+      !contactNumber.trim()
     ) {
       console.error("All fields must be filled");
       showAlert("Error", "All fields must be filled");

@@ -77,7 +77,7 @@ const CriticalPatientList = ({ navigation, refreshList, onRefresh }) => {
             </Text>
             <Text style={styles.info}>
               <Text style={styles.infoHeading}>Date Of Birth :</Text>{" "}
-              {item.dateOfBirth}
+              {new Date(item.dateOfBirth).toLocaleDateString()}
             </Text>
             <Text style={styles.info}>
               <Text style={styles.infoHeading}>Gender :</Text> {item.gender}

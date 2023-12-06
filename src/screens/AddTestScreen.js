@@ -6,6 +6,7 @@ import {
   Button,
   StyleSheet,
   ScrollView,
+  Alert,
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
@@ -39,6 +40,28 @@ const AddTestScreen = ({ navigation }) => {
 
   const handleAddTest = async () => {
     try {
+      if (
+        !testType.trim() ||
+        !testDate ||
+        !diagnosis.trim() ||
+        !nurse.trim() ||
+        !testTime ||
+        !category.trim() ||
+        !readings.trim() ||
+        !condition.trim()
+      ) {
+        Alert.alert("Error", "All fields must be filled");
+        return;
+      }
+
+      // Additional validation for testDate (assuming it's a string)
+      const isValidDate =
+        new Date(testDate) instanceof Date && !isNaN(new Date(testDate));
+      if (!isValidDate) {
+        Alert.alert("Error", "Please enter a valid test date");
+        return;
+      }
+
       const newTest = {
         testType,
         testDate,

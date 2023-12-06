@@ -138,7 +138,7 @@ const PatientDetailsScreen = () => {
         </Text>
         <Text style={styles.info}>
           <Text style={styles.infoHeading}>Date Of Birth :</Text>{" "}
-          {patientDetails.dateOfBirth}
+          {new Date(patientDetails.dateOfBirth).toLocaleDateString()}
         </Text>
         <Text style={styles.info}>
           <Text style={styles.infoHeading}>Gender :</Text>{" "}
