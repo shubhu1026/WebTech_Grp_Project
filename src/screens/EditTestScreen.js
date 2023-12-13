@@ -232,7 +232,7 @@ const EditTestScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Nurse Name"
-          value={editedTest.nurseName}
+          value={editedTest.nurse}
           onChangeText={(text) => setEditedTest({ ...editedTest, nurse: text })}
         />
         <View style={styles.SectionStyle}>
@@ -270,11 +270,6 @@ const EditTestScreen = () => {
           value={editedTest.readings}
           onChangeText={(text) =>
             setEditedTest({ ...editedTest, readings: text })
-          }
-        />
-        <ConditionDropdown
-          onValueChange={(value) =>
-            setEditedTest({ ...editedTest, condition: value })
           }
         />
         <TextInput
