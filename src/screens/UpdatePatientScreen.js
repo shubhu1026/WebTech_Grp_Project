@@ -267,7 +267,7 @@ const UpdatePatientScreen = () => {
               style={[
                 styles.genderButton,
                 {
-                  borderColor: gender === "Male" ? "#199A8E" : "#A6A6A6",
+                  borderColor: gender === "Male" ? "#DE1E57" : "#A6A6A6",
                 },
               ]}
             >
@@ -282,7 +282,7 @@ const UpdatePatientScreen = () => {
               style={[
                 styles.genderButton,
                 {
-                  borderColor: gender === "Female" ? "#199A8E" : "#A6A6A6",
+                  borderColor: gender === "Female" ? "#DE1E57" : "#A6A6A6",
                 },
               ]}
             >
@@ -309,7 +309,7 @@ const UpdatePatientScreen = () => {
           />
         </View>
         <Button
-          color="#199A8E"
+          color="#DE1E57"
           title={loading ? "Updating..." : "Update"}
           onPress={handleUpdatePatient}
           disabled={loading}
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     borderRadius: 6,
-    backgroundColor: "#199A8E",
+    backgroundColor: "#DE1E57",
   },
 });
 

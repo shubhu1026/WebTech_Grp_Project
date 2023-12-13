@@ -47,8 +47,7 @@ const AddTestScreen = ({ navigation }) => {
         !nurse.trim() ||
         !testTime ||
         !category.trim() ||
-        !readings.trim() ||
-        !condition.trim()
+        !readings.trim()
       ) {
         Alert.alert("Error", "All fields must be filled");
         return;
@@ -62,6 +61,15 @@ const AddTestScreen = ({ navigation }) => {
         return;
       }
 
+      const conditionForTestType = getConditionBasedOnReadings(
+        testType,
+        readings
+      );
+      if (!conditionForTestType) {
+        Alert.alert("Error", "Invalid test type");
+        return;
+      }
+
       const newTest = {
         testType,
         testDate,
@@ -69,7 +77,7 @@ const AddTestScreen = ({ navigation }) => {
         testTime,
         category,
         readings,
-        condition,
+        condition: conditionForTestType,
         diagnosis,
       };
 
@@ -95,6 +103,41 @@ const AddTestScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Error adding new test:", error);
       // Handle any network errors or other exceptions
+    }
+  };
+
+  const getConditionBasedOnReadings = (testType, readings) => {
+    switch (testType.toLowerCase()) {
+      case "blood pressure test":
+        const bpReadings = parseFloat(readings);
+        if (bpReadings < 90 || bpReadings > 140) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "blood sugar test":
+        const sugarReadings = parseFloat(readings);
+        if (sugarReadings < 80 || sugarReadings > 180) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "cholesterol test":
+        const cholesterolReadings = parseFloat(readings);
+        if (cholesterolReadings > 240) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "complete blood count (cbc)":
+        const cbcReadings = parseFloat(readings);
+        if (cbcReadings < 4.5 || cbcReadings > 10) {
+          return "Critical";
+        } else {
+          return "Healthy";
+        }
+      default:
+        return "";
     }
   };
 
@@ -130,7 +173,9 @@ const AddTestScreen = ({ navigation }) => {
     <KeyboardAvoidingView style={styles.container} behavior="position" enabled>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Add Test Details </Text>
-        <TestTypeDropdown onValueChange={setTestType} />
+        <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
+          <TestTypeDropdown onValueChange={setTestType} />
+        </View>
 
         <View style={styles.SectionStyle}>
           <TextInput
@@ -147,25 +192,6 @@ const AddTestScreen = ({ navigation }) => {
               onDateChange={onDateChange}
             />
           )}
-        </View>
-
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Test Diagnosis"
-            underlineColorAndroid="transparent"
-            value={diagnosis}
-            onChangeText={(text) => setDiagnosis(text)}
-          />
-        </View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Enter Nurse Name"
-            underlineColorAndroid="transparent"
-            value={nurse}
-            onChangeText={(text) => setNurse(text)}
-          />
         </View>
 
         <View style={styles.SectionStyle}>
@@ -198,15 +224,45 @@ const AddTestScreen = ({ navigation }) => {
         <View style={styles.SectionStyle}>
           <TextInput
             style={{ flex: 1 }}
+            placeholder="Enter Nurse Name"
+            underlineColorAndroid="transparent"
+            value={nurse}
+            onChangeText={(text) => setNurse(text)}
+          />
+        </View>
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
             placeholder="Enter Readings"
             underlineColorAndroid="transparent"
             value={readings}
             onChangeText={(text) => setReadings(text)}
+            keyboardType="numeric"
           />
         </View>
-        <ConditionDropdown onValueChange={setCondition} />
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Enter Test Diagnosis"
+            underlineColorAndroid="transparent"
+            value={diagnosis}
+            onChangeText={(text) => setDiagnosis(text)}
+          />
+        </View>
+
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={{ flex: 1, color: "#101010" }}
+            placeholder="Condition"
+            underlineColorAndroid="transparent"
+            value={getConditionBasedOnReadings(testType, readings)}
+            editable={false}
+          />
+        </View>
         <View style={styles.buttonContainer}>
-          <Button color="#199A8E" title="Submit" onPress={handleAddTest} />
+          <Button color="#DE1E57" title="Submit" onPress={handleAddTest} />
         </View>
       </View>
     </KeyboardAvoidingView>

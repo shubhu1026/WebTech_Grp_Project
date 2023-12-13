@@ -13,18 +13,28 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <Image
+        testID="homepageLogo"
+        style={styles.homepageLogo}
+        source={{
+          uri: "https://ik.imagekit.io/fvlwioahxk/logo_updated_EAzrsyS8m",
+        }}
+      />
+      <Image
         testID="homepageImage"
         style={styles.homepageImage}
         source={{
-          uri: "https://qdesq.imagekit.io/image/upload/v1698453219/o5rlevyuun0dxtepezsj.png",
+          uri: "https://ik.imagekit.io/fvlwioahxk/homepage_main_icon.png",
         }}
       />
       <View style={styles.patientListContainer}>
         <Text style={styles.patientContainerText}>
-          Consult only with a doctor you trust
+          Consult Only With A Doctor You Trust!
+        </Text>
+        <Text style={styles.viewPatientText}>
+          Schedule appointments, monitor vital signs, and access lab results
+          effortlessly. Your well-being, simplified.
         </Text>
         <View style={styles.patientViewContainer}>
-          <Text style={styles.viewPatientText}>View Patients List</Text>
           <TouchableOpacity
             style={styles.patientListBtn}
             onPress={() => navigation.navigate("PatientListScreen")}
@@ -32,7 +42,7 @@ const HomeScreen = ({ navigation }) => {
             <Image
               style={styles.patientListBtnImg}
               source={{
-                uri: "https://qdesq.imagekit.io/image/upload/v1698455830/zzy0qeqewtririuryd9f.png",
+                uri: "https://ik.imagekit.io/fvlwioahxk/get_started_btn.png",
               }}
             />
           </TouchableOpacity>
@@ -45,53 +55,63 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   patientViewContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     height: 200,
     width: "100%",
     alignContent: "right",
   },
   viewPatientText: {
-    color: "#101623",
+    color: "#f6f6f6",
     fontSize: 18,
-    fontWeight: "700",
-    marginBottom: 15,
-    lineHeight: 50,
+    fontWeight: "300",
+    marginBottom: 25,
+    textAlign: "center",
   },
   mainContainer: {
-    padding: 25,
+    paddingTop: 15,
     backgroundColor: "#FFF",
     height: "100%",
   },
   patientListContainer: {
-    borderRadius: 24,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     width: "100%",
     height: 200,
     padding: 25,
     flex: 1,
     alignItems: "flex-end",
-    backgroundColor: "#f6f7ff",
+    backgroundColor: "#DE1E57",
   },
   patientContainerText: {
-    color: "#101623",
-    fontSize: 22,
+    color: "#f6f6f6",
+    fontSize: 24,
     fontWeight: "700",
     width: "100%",
     marginBottom: 15,
+    textAlign: "center",
   },
   patientListBtn: {
-    backgroundColor: "#199A8E",
     borderRadius: 50,
-    width: 50,
-    height: 50,
+    width: 161,
+    height: 60,
     alignItems: "center",
     justifyContent: "center",
+    display: "flex",
   },
   patientListBtnImg: {
-    width: 25,
-    height: 25,
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+    alignSelf: "center",
   },
   homepageImage: {
-    height: 467,
+    height: 370,
+    width: "100%",
+    objectFit: "contain",
+    alignSelf: "center",
+  },
+  homepageLogo: {
+    height: 100,
     width: "100%",
     objectFit: "contain",
     alignSelf: "center",

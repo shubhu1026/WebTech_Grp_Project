@@ -121,12 +121,12 @@ const PatientDetailsScreen = () => {
           style={styles.updateIcon}
           onPress={handleUpdatePatient}
         >
-          <FontAwesomeIcon name="pencil" size={20} color="#199A8E" />
+          <FontAwesomeIcon name="pencil" size={20} color="#ffffff" />
         </TouchableOpacity>
         <Image
           style={styles.ImageStyle}
           source={{
-            uri: "https://qdesq.imagekit.io/tr:n-listing_image_hq/image/upload/v1698461447/r4vffzt1a5urnkvyqnis.png",
+            uri: "https://ik.imagekit.io/fvlwioahxk/profile%20(1).png",
           }}
         />
         <Text style={styles.name}>
@@ -161,7 +161,7 @@ const PatientDetailsScreen = () => {
           style={styles.deleteIcon}
           onPress={handleDeletePatient}
         >
-          <FontAwesomeIcon name="trash" size={20} color="#FF6347" />
+          <FontAwesomeIcon name="trash" size={20} color="#ffffff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     height: 320,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#E8F3F1",
+    backgroundColor: "#DE1E57",
     borderRadius: 16,
     padding: 10,
   },
@@ -198,18 +198,19 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    fontWeight: "600",
-    color: "#101623",
+    fontWeight: "700",
+    color: "lightgrey",
+    marginBottom : 10
   },
   infoHeading: {
     fontSize: 14,
-    color: "#000",
+    color: "#f0f0f0",
     fontWeight: "600",
   },
   info: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#3B4453",
+    color: "#ffffff",
     marginTop: 7,
   },
   loadingContainer: {
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   viewTestRecordBtn: {
-    backgroundColor: "#199A8E",
+    backgroundColor: "#ffffff",
     width: 160,
     height: 40,
     borderRadius: 10,
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
   viewTestRecordBtnText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#FFFFFF",
+    color: "#DE1E57",
     lineHeight: 40,
     alignSelf: "center",
   },

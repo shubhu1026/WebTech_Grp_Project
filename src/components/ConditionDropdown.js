@@ -28,13 +28,12 @@ const styles = {
     borderColor: "#A6A6A6",
     borderRadius: 12,
     paddingLeft: 10,
-    margin: 10,
   },
   dropdownContainerStyle: {
     borderWidth: 0.5,
     borderColor: "#A6A6A6",
     borderRadius: 12,
-    margin: 10,
+    marginBottom: 10,
   },
   inputStyle: {
     // Text input style

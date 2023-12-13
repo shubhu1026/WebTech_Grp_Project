@@ -119,8 +119,6 @@ const EditTestScreen = () => {
         navigation.goBack();
       } else {
         console.error("Failed to update test data");
-        // Handle the case where the update fails
-        // You might display an error message to the user
       }
     } catch (error) {
       console.error("Error updating test data:", error);
@@ -156,14 +154,50 @@ const EditTestScreen = () => {
     return time.toLocaleTimeString(undefined, options);
   };
 
+  const getConditionBasedOnReadings = (testType, readings) => {
+    switch (testType.toLowerCase()) {
+      case "blood pressure test":
+        const bpReadings = parseFloat(readings);
+        if (bpReadings < 90 || bpReadings > 140) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "blood sugar test":
+        const sugarReadings = parseFloat(readings);
+        if (sugarReadings < 80 || sugarReadings > 180) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "cholesterol test":
+        const cholesterolReadings = parseFloat(readings);
+        if (cholesterolReadings > 240) {
+          return "Critical";
+        } else {
+          return "Normal";
+        }
+      case "complete blood count (cbc)":
+        const cbcReadings = parseFloat(readings);
+        if (cbcReadings < 4.5 || cbcReadings > 10) {
+          return "Critical";
+        } else {
+          return "Healthy";
+        }
+      default:
+        return "";
+    }
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Edit Test</Text>
-        <TestTypeDropdown
-          onValueChange={(value) =>
-            setEditedTest({ ...editedTest, testType: value })
-          }
+        <TextInput
+          style={[{ color: "#000000" }, styles.input]}
+          placeholder="Test Type"
+          value={editedTest.testType}
+          editable={false}
         />
         <View style={styles.SectionStyle}>
           <TextInput
@@ -243,7 +277,17 @@ const EditTestScreen = () => {
             setEditedTest({ ...editedTest, condition: value })
           }
         />
-        <Button color="#199A8E" title="Save" onPress={handleSave} />
+        <TextInput
+          style={[{ color: "#000000" }, styles.input]}
+          placeholder="Condition"
+          underlineColorAndroid="transparent"
+          value={getConditionBasedOnReadings(
+            editedTest.testType,
+            editedTest.readings
+          )}
+          editable={false}
+        />
+        <Button color="#DE1E57" title="Save" onPress={handleSave} />
       </View>
     </KeyboardAvoidingView>
   );

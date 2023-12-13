@@ -1,23 +1,16 @@
 import React, { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Button,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import API_BASE_URL from "../api/apiconfig";
+import PatientCard from "./PatientCard";
 
 const PatientList = ({ navigation, refreshList, onRefresh }) => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedCardId, setExpandedCardId] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
-      // Make an API call to fetch patient data
       const response = await fetch(`${API_BASE_URL}/patients`, {
         method: "GET",
         headers: {
@@ -36,13 +29,15 @@ const PatientList = ({ navigation, refreshList, onRefresh }) => {
   useFocusEffect(
     useCallback(() => {
       fetchData();
-
-      // Reset refreshList to false after fetching data
       if (refreshList) {
-        onRefresh(); // Call the onRefresh callback to reset refreshList in the parent
+        onRefresh();
       }
     }, [refreshList, onRefresh, fetchData])
   );
+
+  const toggleExpand = (id) => {
+    setExpandedCardId((prevId) => (prevId === id ? null : id));
+  };
 
   if (loading) {
     return (
@@ -58,32 +53,18 @@ const PatientList = ({ navigation, refreshList, onRefresh }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.listTitle}>List of Patients</Text>
       <FlatList
         data={patients}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingTop: 0, paddingBottom: 0 }}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => {
-              navigation.navigate("PatientDetailsScreen", { id: item._id });
-            }}
-          >
-            <Text style={styles.name}>
-              {item.firstName + " " + item.lastName}
-            </Text>
-            <Text style={styles.info}>
-              <Text style={styles.infoHeading}>Address :</Text> {item.address}
-            </Text>
-            <Text style={styles.info}>
-              <Text style={styles.infoHeading}>Date Of Birth :</Text>{" "}
-              {new Date(item.dateOfBirth).toLocaleDateString()}
-            </Text>
-            <Text style={styles.info}>
-              <Text style={styles.infoHeading}>Gender :</Text> {item.gender}
-            </Text>
-          </TouchableOpacity>
+          <PatientCard
+            item={item}
+            expanded={expandedCardId === item._id}
+            onExpand={() => toggleExpand(item._id)}
+            navigation={navigation}
+          />
         )}
       />
     </View>
@@ -93,43 +74,6 @@ const PatientList = ({ navigation, refreshList, onRefresh }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     width: "100%",
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  listTitle: {
-    color: "#101623",
-    fontSize: 16,
-    fontWeight: "600",
-    marginTop: 15,
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  card: {
-    backgroundColor: "#E8F3F1",
-    padding: 10,
-    margin: 10,
-    borderRadius: 12,
-    elevation: 3,
-    shadowColor: "#E8F3F1",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    height: 125,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#101623",
-  },
-  infoHeading: {
-    fontSize: 16,
-    color: "#000",
-    fontWeight: "600",
-  },
-  info: {
-    fontSize: 14,
-    color: "#3B4453",
-    marginTop: 7,
   },
   loadingContainer: {
     flex: 1,
