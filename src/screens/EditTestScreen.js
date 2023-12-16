@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  Alert,
   Button,
   KeyboardAvoidingView,
 } from "react-native";
@@ -11,8 +12,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 import API_BASE_URL from "../api/apiconfig";
 
-import TestTypeDropdown from "../components/TestTypeDropdown";
-import ConditionDropdown from "../components/ConditionDropdown";
 import DatePicker from "../components/DatePicker";
 import TimePicker from "../components/TimePicker";
 
@@ -23,7 +22,7 @@ const EditTestScreen = () => {
 
   const [editedTest, setEditedTest] = useState({
     testType: "",
-    testDate: "",
+    date: "",
     nurse: "",
     testTime: "",
     category: "",
@@ -62,7 +61,7 @@ const EditTestScreen = () => {
       // Update state with fetched test details
       setEditedTest({
         testType: data.testType,
-        testDate: data.date,
+        date: data.date,
         nurse: data.nurse,
         testTime: data.testTime,
         category: data.category,
@@ -98,10 +97,12 @@ const EditTestScreen = () => {
       const isValidDate =
         new Date(editedTest.testDate) instanceof Date &&
         !isNaN(new Date(editedTest.testDate));
+      /*
       if (!isValidDate) {
         Alert.alert("Error", "Please enter a valid test date");
         return;
       }
+      */
 
       const response = await fetch(
         `${API_BASE_URL}/patients/${patientId}/medicalTests/${testId}`,
