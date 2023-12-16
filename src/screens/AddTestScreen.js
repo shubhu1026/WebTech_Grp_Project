@@ -22,6 +22,8 @@ const AddTestScreen = ({ navigation }) => {
   const route = useRoute();
   const { patientId } = route.params;
 
+  console.log("Add Test Patient ID: " + patientId);
+
   const [testType, setTestType] = useState("");
   const [testDate, setTestDate] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -72,7 +74,7 @@ const AddTestScreen = ({ navigation }) => {
 
       const newTest = {
         testType,
-        testDate,
+        date: testDate,
         nurse,
         testTime,
         category,
