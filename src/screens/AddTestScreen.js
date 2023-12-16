@@ -53,7 +53,7 @@ const AddTestScreen = ({ navigation }) => {
         return;
       }
 
-      // Additional validation for testDate (assuming it's a string)
+      // Additional validation for testDate
       const isValidDate =
         new Date(testDate) instanceof Date && !isNaN(new Date(testDate));
       if (!isValidDate) {
